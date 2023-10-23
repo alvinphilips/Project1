@@ -1,7 +1,7 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
-#include "Text.h"
+#include "TextManager.h"
 
 int main(int argc, char** argv)
 {
