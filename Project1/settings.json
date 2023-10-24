@@ -1,5 +1,5 @@
 {
-  "title": "Spaceship Shooter!",
+  "title": "SPACE SH00TER!",
   "window": {
     "width": 1280,
     "height": 720,
@@ -8,7 +8,7 @@
   "config": {
     "font": "font.json",
     "texture": "textures.json",
-    "save": "gamestate.json",
-    "leaderboard": "scores.json"
+    "prefab": "prefabs.json",
+    "save": "gamestate.json"
   }
 }
