@@ -1,0 +1,14 @@
+{
+  "title": "Spaceship Shooter!",
+  "window": {
+    "width": 1280,
+    "height": 720,
+    "clear_color": [ 23, 66, 234, 255 ]
+  },
+  "config": {
+    "font": "font.json",
+    "texture": "textures.json",
+    "save": "gamestate.json",
+    "leaderboard": "scores.json"
+  }
+}
