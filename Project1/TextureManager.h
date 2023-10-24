@@ -22,39 +22,13 @@ public:
 	std::vector<Sprite> sprite_storage;
 	// Path to the image file
 	std::string atlas_file;
-	void Initialize(SDL_Renderer *renderer)
-	{
-		SDL_Surface* surface = IMG_Load(atlas_file.c_str());
-		texture = SDL_CreateTextureFromSurface(renderer, surface);
-		SDL_FreeSurface(surface);
-	}
+	void Initialize(SDL_Renderer* renderer);
 	// Returns the ID of a Sprite, or -1 if it was not found
-	int GetSpriteIdByName(const std::string& name) {
-		if (sprite_lookup_table.find(name) != sprite_lookup_table.end())
-		{
-			return (int) sprite_lookup_table.at(name);
-		}
-		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Cannot find sprite with name '%s'", name.c_str());
-		return -1;
-	}
+	int GetSpriteIdByName(const std::string& name);
 
 	// Returns a Sprite at a given position in the sprite array, or the first element if the index is out of range
-	Sprite GetSpriteById(const unsigned int id)
-	{
-		if (id >= sprite_storage.size())
-		{
-			SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Cannot find sprite with id '%ui'", id);
-
-			// Hopefully we have at least one Sprite stored
-			return sprite_storage[0];
-		}
-		return sprite_storage[id];
-	}
-	void Destroy()
-	{
-		SDL_DestroyTexture(texture);
-		texture = nullptr;
-	}
+	Sprite GetSpriteById(unsigned int id);
+	void Destroy();
 };
 
 template <>
