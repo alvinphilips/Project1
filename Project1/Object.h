@@ -37,6 +37,18 @@ public:
 	}
 	virtual void Initialize() = 0;
 	virtual void Destroy() = 0;
+	void SetSprite(TextureManager& texture, const std::string& name)
+	{
+		sprite = texture.GetSpriteIdByName(name);
+		// We expect square, or square-ish Sprites
+		radius = texture.GetSpriteById(sprite).bounds.w / 2;
+	}
+	void SetSprite(TextureManager& texture, const unsigned int id)
+	{
+		sprite = id;
+		// We expect square, or square-ish Sprites
+		radius = texture.GetSpriteById(sprite).bounds.w / 2;
+	}
 };
 
 template <>
