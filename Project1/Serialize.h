@@ -63,5 +63,4 @@ inline void load_from_json(SDL_Color& value, const json::JSON& node)
 	value.a = (unsigned char)node.at(3).ToInt();
 }
 
-
 #endif
