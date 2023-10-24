@@ -7,6 +7,7 @@
 
 #include "Serialize.h"
 
+// An Object defines the base set of functionality an entity in the game possesses
 class Object
 {
 public:
@@ -14,7 +15,26 @@ public:
 	SDL_FPoint vel;
 	unsigned int radius;
 	unsigned int sprite;
-	virtual void Update(float deltaTime) = 0;
+	unsigned int health;
+	bool is_dead;
+
+	Object() : pos{ 0, 0 }, vel{ 0, 0 } {
+		radius = 0;
+		sprite = 0;
+		health = 100;
+		is_dead = false;
+	}
+	virtual ~Object() = default;
+	virtual void Update(const float deltaTime)
+	{
+		// Move the object based on its velocity
+		pos.x += vel.x * deltaTime;
+		pos.y += vel.y * deltaTime;
+	}
+	void TakeDamage(const unsigned int damage)
+	{
+		health -= SDL_min(damage, health);
+	}
 	virtual void Initialize() = 0;
 	virtual void Destroy() = 0;
 };
@@ -32,6 +52,9 @@ inline void load_from_json(Object& value, const json::JSON& node)
 	}
 	if (node.hasKey("radius")) {
 		load_from_json(value.radius, node.at("radius"));
+	}
+	if (node.hasKey("health")) {
+		load_from_json(value.health, node.at("health"));
 	}
 }
 
