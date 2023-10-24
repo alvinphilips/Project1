@@ -6,6 +6,7 @@
 #include <SDL/SDL_rect.h>
 
 #include "Serialize.h"
+#include "TextureManager.h"
 
 // An Object defines the base set of functionality an entity in the game possesses
 class Object
@@ -34,6 +35,10 @@ public:
 	void TakeDamage(const unsigned int damage)
 	{
 		health -= SDL_min(damage, health);
+		if (health == 0)
+		{
+			is_dead = true;
+		}
 	}
 	virtual void Initialize() = 0;
 	virtual void Destroy() = 0;

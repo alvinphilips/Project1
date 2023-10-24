@@ -13,7 +13,6 @@ public:
 	float speed;
 	float movement_factor;
 	float velocity_dampener;
-	// Misc data
 	unsigned int lives;
 	bool can_fire;
 	void Initialize() override {}

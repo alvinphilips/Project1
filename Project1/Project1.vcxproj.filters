@@ -22,7 +22,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TextManager.cpp">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="json.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -41,6 +44,27 @@
     <ClInclude Include="Sprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PrefabManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="textures.json">
@@ -50,6 +74,12 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="gamestate.json">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="settings.json">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="prefabs.json">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

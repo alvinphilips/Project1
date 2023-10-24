@@ -157,15 +157,25 @@
   <ItemGroup>
     <None Include="font.json" />
     <None Include="gamestate.json" />
+    <None Include="prefabs.json" />
+    <None Include="settings.json" />
     <None Include="textures.json" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="json.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TextManager.cpp" />
     <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="ObjectManager.h" />
+    <ClInclude Include="Engine.h" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="Object.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PrefabManager.h" />
+    <ClInclude Include="Projectile.h" />
     <ClInclude Include="Serialize.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TextManager.h" />

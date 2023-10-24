@@ -1,0 +1,46 @@
+{
+  "player": {
+    "fire_delay": 0.3,
+    "movement_factor": 0.3,
+    "speed": 2.0,
+    "lives": 3,
+    "velocity_dampener": 0.995,
+    "sprite": "ship_G",
+    "projectile": {
+      "damage": 50,
+      "vel": [ 0.0, -1.5 ],
+      "color": [15, 127, 24, 255],
+      "sprite": "star_small"
+    }
+  },
+  "enemies": [
+    {
+      "sprite": "satellite_B",
+      "speed": 1.0,
+      "fire_delay": 2.0,
+      "health": 200.0,
+      "name": "enemy_heavy",
+      "data": 0,
+      "projectile": {
+        "damage": 100,
+        "vel": [ 0.0, 1.0 ],
+        "color": [ 237, 24, 21, 255 ],
+        "sprite": "star_tiny"
+      }
+    },
+    {
+      "sprite": "enemy_C",
+      "speed": 2.0,
+      "fire_delay": 1.0,
+      "health": 200.0,
+      "name": "enemy_light",
+      "data": 1,
+      "projectile": {
+        "damage": 100,
+        "vel": [ 0.0, 1.2 ],
+        "color": [ 237, 24, 221, 255 ],
+        "sprite": "star_tiny"
+      }
+    }
+  ]
+}

@@ -5,20 +5,18 @@
 
 #include "Object.h"
 
-
-enum EnemyBehavior
+enum EnemyBehaviour
 {
-	ENEMY_ASTEROID,
-	ENEMY_SWAY,
-	ENEMY_RUN_AND_GUN,
-	ENEMY_VIBE_AND_SHOOT
+	ENEMY_SLOW,
+	ENEMY_RANDOM,
 };
 
-class Enemy: public Object
+class Enemy final : public Object
 {
 public:
 	float fire_delay;
 	float last_fired;
+	float speed;
 	// Misc data
 	unsigned int data;
 	bool can_fire;

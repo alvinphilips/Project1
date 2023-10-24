@@ -12,6 +12,7 @@
       "pos": [ 0, 0 ],
       "vel": [ 0, 0 ],
       "radius": 20.0,
+      "fire_delay": 0,
       "health": 5,
       "sprite": "ship_A"
     }

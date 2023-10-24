@@ -5,6 +5,7 @@
 
 #include "TextManager.h"
 #include "TextureManager.h"
+#include "PrefabManager.h"
 #include "Enemy.h"
 #include "Player.h"
 
@@ -21,6 +22,7 @@ class Engine
 public:
 	TextManager text;
 	TextureManager texture;
+	PrefabManager prefab;
 	SDL_Point window_size;
 	SDL_Color window_clear_color;
 	SDL_Window* window = nullptr;
@@ -28,6 +30,7 @@ public:
 	std::string window_title;
 	long score;
 	bool quit;
+	bool is_shooting;
 
 	Player player;
 
@@ -52,6 +55,7 @@ public:
 	}
 	void HandleKeyboardInput(SDL_Event& event)
 	{
+		is_shooting = false;
 		switch (event.key.keysym.sym)
 		{
 		case SDLK_UP:
@@ -69,6 +73,9 @@ public:
 		case SDLK_RIGHT:
 		case SDLK_d:
 			player.vel.x += player.movement_factor;
+			break;
+		case SDLK_SPACE:
+			is_shooting = true;
 			break;
 		case SDLK_ESCAPE:
 			quit = true;
@@ -110,6 +117,11 @@ public:
 		text.DrawText(renderer, "SCORE: " + std::to_string(score));
 
 		player.Update(deltaTime);
+
+		if (is_shooting && player.can_fire)
+		{
+			// TODO: Shoot!
+		}
 		SDL_Rect player_size = texture.sprite_storage[player.sprite].bounds;
 		player.pos.x = SDL_clamp(player.pos.x, 20, window_size.x - (20 + player_size.w));
 		player.pos.y = SDL_clamp(player.pos.y, 20, window_size.y - (20 + player_size.h));
@@ -174,6 +186,12 @@ inline void load_from_json(Engine& value, const json::JSON& node)
 		{
 			const json::JSON font_file = give_me_json(config.at("font").ToString().c_str());
 			load_from_json(value.text, font_file);
+		}
+
+		if (config.hasKey("prefab"))
+		{
+			const json::JSON prefab_file = give_me_json(config.at("prefab").ToString().c_str());
+			load_from_json(value.prefab, prefab_file);
 		}
 
 		if (config.hasKey("texture"))
