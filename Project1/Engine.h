@@ -46,9 +46,9 @@ public:
 
 		score = 0;
 		quit = false;
-
-		player.pos = SDL_FPoint{ (float) window_size.x / 2.0f, (float) window_size.y / 3.0f };
+		
 		player.SetSprite(texture, "ship_G");
+		player.pos = SDL_FPoint{ (float) window_size.x / 2.0f - (float) player.radius, (float) window_size.y / 3.0f };
 		player.speed = 2.0f;
 		player.movement_factor = 0.6f;
 		player.velocity_dampener = 0.995f;
