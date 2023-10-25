@@ -25,7 +25,9 @@ public:
 	TextureManager texture;
 	PrefabManager prefab;
 	EnemyManager enemies;
-	EnemyManager asteroids;
+	EnemyManager decorations;
+
+	std::vector<Projectile> player_projectiles;
 
 	SDL_Point window_size;
 	SDL_Color window_clear_color;
@@ -55,14 +57,45 @@ public:
 		// Center the Player to the screen
 		player.pos = SDL_FPoint{ (float) window_size.x / 2.0f - (float) player.radius, (float) window_size.y / 3.0f };
 		
+		enemies.AddEnemy(prefab.enemies["asteroid_large"]);
+		enemies.AddEnemy(prefab.enemies["asteroid_large"]);
+		enemies.AddEnemy(prefab.enemies["asteroid_small"]);
+		enemies.AddEnemy(prefab.enemies["asteroid_small"]);
 		enemies.AddEnemy(prefab.enemies["enemy_light"]);
 		enemies.AddEnemy(prefab.enemies["enemy_light"]);
 		enemies.AddEnemy(prefab.enemies["enemy_light"]);
-		enemies.AddEnemy(prefab.enemies["enemy_light"]);
+		enemies.AddEnemy(prefab.enemies["enemy_heavy"]);
+		enemies.AddEnemy(prefab.enemies["enemy_heavy"]);
 		enemies.SetWindowSizeAndPlayer(&window_size, &player);
-		asteroids.SetWindowSizeAndPlayer(&window_size, &player);
+		
+		decorations.AddEnemy(prefab.decorations["star_small"]);
+		decorations.AddEnemy(prefab.decorations["star_small"]);
+		decorations.AddEnemy(prefab.decorations["star_small"]);
+		decorations.AddEnemy(prefab.decorations["star_small"]);
+		decorations.AddEnemy(prefab.decorations["star_small"]);
+		decorations.AddEnemy(prefab.decorations["star_small"]);
+		decorations.AddEnemy(prefab.decorations["star_small"]);
+		decorations.AddEnemy(prefab.decorations["star_small"]);
+		decorations.AddEnemy(prefab.decorations["star_small"]);
+		decorations.AddEnemy(prefab.decorations["star_small"]);
+		decorations.AddEnemy(prefab.decorations["star_medium"]);
+		decorations.AddEnemy(prefab.decorations["star_medium"]);
+		decorations.AddEnemy(prefab.decorations["star_medium"]);
+		decorations.AddEnemy(prefab.decorations["star_medium"]);
+		decorations.AddEnemy(prefab.decorations["star_medium"]);
+		decorations.AddEnemy(prefab.decorations["star_medium"]);
+		decorations.AddEnemy(prefab.decorations["star_medium"]);
+		decorations.AddEnemy(prefab.decorations["star_medium"]);
+		decorations.AddEnemy(prefab.decorations["star_medium"]);
+		decorations.AddEnemy(prefab.decorations["star_medium"]);
+		decorations.SetWindowSizeAndPlayer(&window_size, &player);
+
+		// Disable collisions on decorations
+		decorations.can_collide = false;
+
+		// Initialize both EnemyManagers
 		enemies.Initialize();
-		asteroids.Initialize();
+		decorations.Initialize();
 	}
 	void HandleKeyboardInput(SDL_Event& event)
 	{
@@ -145,13 +178,18 @@ public:
 		player.pos.y = SDL_clamp(player.pos.y, 20, window_size.y - (20 + player_size.h));
 
 		score += enemies.UpdateAndGetScore(deltaTime);
+		
+		decorations.UpdateAndGetScore(deltaTime);
+
+		// Check if player is dead
 		if (player.is_dead) {
 			player.lives--;
 			player.is_dead = false;
 		}
 
 		SDL_FRect dst = { player.pos.x, player.pos.y, (float) player_size.w, (float) player_size.h };
-
+		
+		decorations.DrawEnemies(renderer, texture);
 		enemies.DrawEnemies(renderer, texture);
 		SDL_RenderCopyF(renderer, texture.texture, &player_size, &dst);
 		SDL_RenderPresent(renderer);

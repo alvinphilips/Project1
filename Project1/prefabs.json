@@ -21,11 +21,12 @@
   },
   "enemies": [
     {
-      "sprite": "satellite_B",
-      "speed": 0.01,
+      "sprite": "ship_sidesA",
+      "speed": 0.05,
       "fire_delay": 2.0,
       "health": 200.0,
       "name": "enemy_heavy",
+      "color": [ 245, 14, 78, 255 ],
       "points": 200,
       "scale": 1.0,
       "can_fire": true
@@ -35,10 +36,47 @@
       "speed": 0.1,
       "fire_delay": 1.0,
       "health": 200.0,
+      "color": [ 255, 0, 68, 255 ],
       "name": "enemy_light",
       "scale": 0.5,
       "points": 100,
       "can_fire": true
+    },
+    {
+      "sprite": "meteor_detailedLarge",
+      "speed": 0.05,
+      "health": 100.0,
+      "name": "asteroid_large",
+      "points": 50,
+      "scale": 1.0,
+      "can_fire": false
+    },
+    {
+      "sprite": "meteor_small",
+      "speed": 0.1,
+      "health": 100.0,
+      "name": "asteroid_small",
+      "scale": 0.5,
+      "points": 20,
+      "can_fire": false
+    }
+  ],
+  "decorations": [
+    {
+      "sprite": "star_medium",
+      "speed": 0.02,
+      "health": 100.0,
+      "name": "star_medium",
+      "color": [ 159, 175, 200, 255 ],
+      "scale": 0.35
+    },
+    {
+      "sprite": "star_small",
+      "speed": 0.04,
+      "health": 100.0,
+      "name": "star_small",
+      "color": [ 139, 155, 180, 255 ],
+      "scale": 0.5
     }
   ]
 }

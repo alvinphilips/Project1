@@ -16,7 +16,7 @@ public:
 	Player player;
 	Projectile player_projectile;
 	std::map<std::string, Enemy> enemies;
-	std::map<std::string, Enemy> asteroids;
+	std::map<std::string, Enemy> decorations;
 	Projectile enemy_projectile;
 
 	// Set the Texture Manager pointer, needs to be set before loading.
@@ -26,7 +26,7 @@ public:
 	// Reset texture pointer and clear storage
 	void Destroy() {
 		enemies.clear();
-		asteroids.clear();
+		decorations.clear();
 		texture = nullptr;
 	}
 };
@@ -79,21 +79,21 @@ inline void load_from_json(PrefabManager& value, const json::JSON& node) {
 		}
 	}
 
-	// Load asteroids
-	if (node.hasKey("asteroids")) {
-		for (const auto& asteroid : node.at("asteroids").ArrayRange()) {
+	// Load background elements
+	if (node.hasKey("decorations")) {
+		for (const auto& decoration : node.at("decorations").ArrayRange()) {
 			Enemy e;
 
-			// Set the asteroid's sprite
+			// Set the decoration's sprite
 			if (value.texture != nullptr) {
-				e.SetSprite(*value.texture, asteroid.at("sprite").ToString());
+				e.SetSprite(*value.texture, decoration.at("sprite").ToString());
 			}
 
-			// Load the asteroid's data
-			load_from_json(e, asteroid);
+			// Load the decoration's data
+			load_from_json(e, decoration);
 
-			// Load the asteroid's name, and use it as a key in our map of Asteroids
-			value.asteroids[asteroid.at("name").ToString()] = e;
+			// Load the decoration's name, and use it as a key in our map of background elements
+			value.decorations[decoration.at("name").ToString()] = e;
 		}
 	}
 }

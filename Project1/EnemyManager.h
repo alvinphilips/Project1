@@ -14,16 +14,15 @@ class EnemyManager {
 		enemy.Initialize();
 		if (window_size != nullptr) {
 			// Cast to float to get a float position, rather than a int
-			enemy.pos.x = random((float)window_size->x);
+			enemy.pos.x = random(0.0f, (float)window_size->x) * 2.0f;
 			// Random position above the screen
-			enemy.pos.y = (float) random(-80, -60);
+			enemy.pos.y = (float) random(-200, -100);
 		}
 	}
-public:
 	SDL_Point* window_size = nullptr;
 	Player* player = nullptr;
-
-	std::vector<SDL_FPoint> bullets;
+public:
+	bool can_collide = true;
 	void Initialize() {
 		for (auto& enemy : enemies) {
 			ResetEnemy(enemy);
@@ -43,12 +42,12 @@ public:
 		for (auto& enemy : enemies) {
 			enemy.Update(deltaTime);
 
-			if (enemy.pos.y > window_size->y) {
+			if (enemy.pos.y > window_size->y || enemy.pos.x < -100 || enemy.pos.x > window_size->x + 100) {
 				ResetEnemy(enemy);
 			}
 
 			// Calculate collisions
-			if (check_collision(player->pos, enemy.pos, player->radius, enemy.radius * enemy.scale)) {
+			if (can_collide && check_collision(player->pos, enemy.pos, player->radius, enemy.radius * enemy.scale)) {
 				enemy.is_dead = true;
 				player->is_dead = true;
 			}
@@ -74,8 +73,11 @@ public:
 
 			// Scale enemy by half
 			SDL_FRect enemy_rect = {enemy.pos.x, enemy.pos.y, (float) enemy_sprite.w * enemy.scale, (float) enemy_sprite.h * enemy.scale};
+			
+			SDL_SetTextureColorMod(texture.texture, enemy.color.r, enemy.color.g, enemy.color.b);
 			// SDL_RenderCopyF(renderer, texture.texture, &enemy_sprite, &enemy_rect);
 			SDL_RenderCopyExF(renderer, texture.texture, &enemy_sprite, &enemy_rect, 0, nullptr, SDL_FLIP_VERTICAL);
+			SDL_SetTextureColorMod(texture.texture, 255, 255, 255);
 		}
 	}
 	void Destroy() {
