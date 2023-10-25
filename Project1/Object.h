@@ -14,12 +14,13 @@ class Object
 public:
 	SDL_FPoint pos;
 	SDL_FPoint vel;
+	SDL_Color color;
 	unsigned int radius;
 	unsigned int sprite;
 	unsigned int health;
 	bool is_dead;
 
-	Object() : pos{ 0, 0 }, vel{ 0, 0 } {
+	Object() : pos{ 0, 0 }, vel{ 0, 0 }, color {255, 255, 255, 255} {
 		radius = 0;
 		sprite = 0;
 		health = 100;
@@ -72,6 +73,9 @@ inline void load_from_json(Object& value, const json::JSON& node)
 	}
 	if (node.hasKey("health")) {
 		load_from_json(value.health, node.at("health"));
+	}
+	if (node.hasKey("color")) {
+		load_from_json(value.color, node.at("color"));
 	}
 }
 
