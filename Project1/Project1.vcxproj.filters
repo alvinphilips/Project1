@@ -53,7 +53,7 @@
     <ClInclude Include="Enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectManager.h">
+    <ClInclude Include="EnemyManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine.h">
@@ -66,6 +66,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PrefabManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
