@@ -9,38 +9,36 @@
     "projectile": {
       "damage": 50,
       "vel": [ 0.0, -1.5 ],
-      "color": [15, 127, 24, 255],
+      "color": [ 15, 127, 24, 255 ],
       "sprite": "star_small"
     }
+  },
+  "enemy_projectile": {
+    "damage": 30,
+    "vel": [ 0.0, 1.2 ],
+    "color": [ 237, 24, 221, 255 ],
+    "sprite": "star_tiny"
   },
   "enemies": [
     {
       "sprite": "satellite_B",
-      "speed": 1.0,
+      "speed": 0.01,
       "fire_delay": 2.0,
       "health": 200.0,
       "name": "enemy_heavy",
-      "data": 0,
-      "projectile": {
-        "damage": 100,
-        "vel": [ 0.0, 1.0 ],
-        "color": [ 237, 24, 21, 255 ],
-        "sprite": "star_tiny"
-      }
+      "points": 200,
+      "scale": 1.0,
+      "can_fire": true
     },
     {
-      "sprite": "enemy_C",
-      "speed": 2.0,
+      "sprite": "satellite_B",
+      "speed": 0.1,
       "fire_delay": 1.0,
       "health": 200.0,
       "name": "enemy_light",
-      "data": 1,
-      "projectile": {
-        "damage": 30,
-        "vel": [ 0.0, 1.2 ],
-        "color": [ 237, 24, 221, 255 ],
-        "sprite": "star_tiny"
-      }
+      "scale": 0.5,
+      "points": 100,
+      "can_fire": true
     }
   ]
 }

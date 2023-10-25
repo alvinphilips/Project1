@@ -17,7 +17,7 @@ public:
 	Projectile player_projectile;
 	std::map<std::string, Enemy> enemies;
 	std::map<std::string, Enemy> asteroids;
-	std::map<std::string, Projectile> projectiles;
+	Projectile enemy_projectile;
 
 	// Set the Texture Manager pointer, needs to be set before loading.
 	void SetTextureManager(TextureManager* _texture) {
@@ -27,7 +27,6 @@ public:
 	void Destroy() {
 		enemies.clear();
 		asteroids.clear();
-		projectiles.clear();
 		texture = nullptr;
 	}
 };
@@ -47,7 +46,7 @@ inline void load_from_json(PrefabManager& value, const json::JSON& node) {
 
 		// Set the Player's sprite
 		if (value.texture != nullptr) {
-			value.player.sprite = value.texture->GetSpriteIdByName(node.at("player").at("sprite").ToString());
+			value.player.SetSprite(*value.texture, node.at("player").at("sprite").ToString());
 		}
 
 		// Add Player's projectile
@@ -56,28 +55,27 @@ inline void load_from_json(PrefabManager& value, const json::JSON& node) {
 		}
 	}
 
+	// Add enemy's projectile
+	if (node.hasKey("enemy_projectile")) {
+		Projectile p;
+		load_from_json(p, node.at("enemy_projectile"));
+		value.enemy_projectile = p;
+	}
+
 	// Load enemies
 	if (node.hasKey("enemies")) {
 		for (const auto& enemy : node.at("enemies").ArrayRange()) {
 			Enemy e;
 			// Set the enemy's sprite
 			if (value.texture != nullptr) {
-				e.sprite = value.texture->GetSpriteIdByName(enemy.at("sprite").ToString());
+				e.SetSprite(*value.texture, enemy.at("sprite").ToString());
 			}
 
 			// Load the enemy's data
 			load_from_json(e, enemy);
 
 			// Load the enemy's name, and use it as a key in our map of Enemies
-			std::string enemy_name = enemy.at("name").ToString();
-			value.enemies[enemy_name] = e;
-
-			// Add enemy's projectile
-			if (enemy.hasKey("projectile")) {
-				Projectile p;
-				load_from_json(p, enemy.at("projectile"));
-				value.projectiles[enemy_name] = p;
-			}
+			value.enemies[enemy.at("name").ToString()] = e;
 		}
 	}
 
@@ -88,13 +86,13 @@ inline void load_from_json(PrefabManager& value, const json::JSON& node) {
 
 			// Set the asteroid's sprite
 			if (value.texture != nullptr) {
-			e.sprite = value.texture->GetSpriteIdByName(asteroid.at("sprite").ToString());
+				e.SetSprite(*value.texture, asteroid.at("sprite").ToString());
 			}
 
 			// Load the asteroid's data
 			load_from_json(e, asteroid);
 
-			// Load the asteroid's name, and use it as a key in our map of Asteroids (just Enemies)
+			// Load the asteroid's name, and use it as a key in our map of Asteroids
 			value.asteroids[asteroid.at("name").ToString()] = e;
 		}
 	}
