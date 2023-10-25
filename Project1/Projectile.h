@@ -15,12 +15,12 @@ public:
 	}
 	unsigned int damage;
 	SDL_Color color;
-	void Initialize() override;
+	void Initialize() override {}
 	void Damage(Object& object) const
 	{
 		object.TakeDamage(damage);
 	}
-	void Destroy() override;
+	void Destroy() override {}
 };
 
 template <>
