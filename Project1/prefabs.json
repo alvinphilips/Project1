@@ -36,7 +36,7 @@
       "name": "enemy_light",
       "data": 1,
       "projectile": {
-        "damage": 100,
+        "damage": 30,
         "vel": [ 0.0, 1.2 ],
         "color": [ 237, 24, 221, 255 ],
         "sprite": "star_tiny"

@@ -23,10 +23,6 @@ public:
 		for (const auto& object : objects)
 		{
 			object->Update(deltaTime);
-			if (object->can_fire)
-			{
-				
-			}
 		}
 		objects.remove_if([&](const Object* obj) {return obj->is_dead; });
 	}
