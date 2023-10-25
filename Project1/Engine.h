@@ -47,11 +47,8 @@ public:
 		score = 0;
 		quit = false;
 		
-		player.SetSprite(texture, "ship_G");
+		player = prefab.player;
 		player.pos = SDL_FPoint{ (float) window_size.x / 2.0f - (float) player.radius, (float) window_size.y / 3.0f };
-		player.speed = 2.0f;
-		player.movement_factor = 0.6f;
-		player.velocity_dampener = 0.995f;
 	}
 	void HandleKeyboardInput(SDL_Event& event)
 	{
@@ -116,6 +113,12 @@ public:
 		SDL_RenderClear(renderer);
 		text.DrawText(renderer, "SCORE: " + std::to_string(score));
 
+#ifdef _DEBUG_PLAYER
+		text.DrawText(renderer, "pos: " + std::to_string(player.pos.x) + ", " + std::to_string(player.pos.y), {0, 30});
+		text.DrawText(renderer, "vel: " + std::to_string(player.vel.x) + ", " + std::to_string(player.vel.y), {0, 60});
+		text.DrawText(renderer, "speed: " + std::to_string(player.speed), {0, 90});
+#endif
+
 		player.Update(deltaTime);
 
 		if (is_shooting && player.can_fire)
@@ -126,10 +129,9 @@ public:
 		player.pos.x = SDL_clamp(player.pos.x, 20, window_size.x - (20 + player_size.w));
 		player.pos.y = SDL_clamp(player.pos.y, 20, window_size.y - (20 + player_size.h));
 
-		SDL_Rect src = texture.GetSpriteById(player.sprite).bounds;
-		SDL_FRect dst = { player.pos.x, player.pos.y, (float) src.w, (float) src.h };
+		SDL_FRect dst = { player.pos.x, player.pos.y, (float) player_size.w, (float) player_size.h };
 
-		SDL_RenderCopyF(renderer, texture.texture, &src, &dst);
+		SDL_RenderCopyF(renderer, texture.texture, &player_size, &dst);
 
 		SDL_RenderPresent(renderer);
 	}
@@ -188,17 +190,20 @@ inline void load_from_json(Engine& value, const json::JSON& node)
 			load_from_json(value.text, font_file);
 		}
 
-		if (config.hasKey("prefab"))
-		{
-			const json::JSON prefab_file = give_me_json(config.at("prefab").ToString().c_str());
-			load_from_json(value.prefab, prefab_file);
-		}
-
 		if (config.hasKey("texture"))
 		{
 			const json::JSON texture_file = give_me_json(config.at("texture").ToString().c_str());
 			load_from_json(value.texture, texture_file);
 		}
+
+		// Load Prefabs, NEEDS to be loaded after textures
+		if (config.hasKey("prefab"))
+		{
+			const json::JSON prefab_file = give_me_json(config.at("prefab").ToString().c_str());
+			value.prefab.SetTextureManager(&value.texture);
+			load_from_json(value.prefab, prefab_file);
+		}
+
 	}
 }
 
