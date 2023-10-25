@@ -8,6 +8,7 @@
 #include "PrefabManager.h"
 #include "Enemy.h"
 #include "Player.h"
+#include "EnemyManager.h"
 
 #include <fstream>
 
@@ -23,6 +24,9 @@ public:
 	TextManager text;
 	TextureManager texture;
 	PrefabManager prefab;
+	EnemyManager enemies;
+	EnemyManager asteroids;
+
 	SDL_Point window_size;
 	SDL_Color window_clear_color;
 	SDL_Window* window = nullptr;
@@ -48,7 +52,17 @@ public:
 		quit = false;
 		
 		player = prefab.player;
+		// Center the Player to the screen
 		player.pos = SDL_FPoint{ (float) window_size.x / 2.0f - (float) player.radius, (float) window_size.y / 3.0f };
+		
+		enemies.AddEnemy(prefab.enemies["enemy_light"]);
+		enemies.AddEnemy(prefab.enemies["enemy_light"]);
+		enemies.AddEnemy(prefab.enemies["enemy_light"]);
+		enemies.AddEnemy(prefab.enemies["enemy_light"]);
+		enemies.SetWindowSizeAndPlayer(&window_size, &player);
+		asteroids.SetWindowSizeAndPlayer(&window_size, &player);
+		enemies.Initialize();
+		asteroids.Initialize();
 	}
 	void HandleKeyboardInput(SDL_Event& event)
 	{
@@ -112,8 +126,8 @@ public:
 	{
 		SDL_RenderClear(renderer);
 		text.DrawText(renderer, "SCORE: " + std::to_string(score));
+		text.DrawText(renderer, "LIVES: " + std::to_string(player.lives), {0, 30});
 
-#define _DEBUG_PLAYER
 #ifdef _DEBUG_PLAYER
 		text.DrawText(renderer, "pos: " + std::to_string(player.pos.x) + ", " + std::to_string(player.pos.y), {0, 30});
 		text.DrawText(renderer, "vel: " + std::to_string(player.vel.x) + ", " + std::to_string(player.vel.y), {0, 60});
@@ -130,10 +144,16 @@ public:
 		player.pos.x = SDL_clamp(player.pos.x, 20, window_size.x - (20 + player_size.w));
 		player.pos.y = SDL_clamp(player.pos.y, 20, window_size.y - (20 + player_size.h));
 
+		score += enemies.UpdateAndGetScore(deltaTime);
+		if (player.is_dead) {
+			player.lives--;
+			player.is_dead = false;
+		}
+
 		SDL_FRect dst = { player.pos.x, player.pos.y, (float) player_size.w, (float) player_size.h };
 
+		enemies.DrawEnemies(renderer, texture);
 		SDL_RenderCopyF(renderer, texture.texture, &player_size, &dst);
-
 		SDL_RenderPresent(renderer);
 	}
 
@@ -175,6 +195,6 @@ public:
 };
 
 template <>
-void load_from_json(Engine& value, const json::JSON& node);
+void load_from_json(Engine&, const json::JSON&);
 
 #endif
