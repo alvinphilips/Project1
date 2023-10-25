@@ -20,7 +20,11 @@ public:
 	void SetTextureManager(TextureManager* _texture) {
 		texture = _texture;
 	}
+	// Reset texture pointer and clear storage
 	void Destroy() {
+		enemies.clear();
+		asteroids.clear();
+		projectiles.clear();
 		texture = nullptr;
 	}
 };
