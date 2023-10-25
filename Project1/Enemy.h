@@ -17,7 +17,6 @@ public:
 	float fire_delay;
 	float last_fired;
 	float speed;
-	// Misc data
 	unsigned int data;
 	bool can_fire;
 
@@ -51,6 +50,10 @@ inline void load_from_json(Enemy& value, const json::JSON& node)
 	if (node.hasKey("data"))
 	{
 		load_from_json(value.data, node.at("data"));
+	}
+	if (node.hasKey("speed"))
+	{
+		load_from_json(value.speed, node.at("speed"));
 	}
 }
 
