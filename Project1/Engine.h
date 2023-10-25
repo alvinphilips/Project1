@@ -113,6 +113,7 @@ public:
 		SDL_RenderClear(renderer);
 		text.DrawText(renderer, "SCORE: " + std::to_string(score));
 
+#define _DEBUG_PLAYER
 #ifdef _DEBUG_PLAYER
 		text.DrawText(renderer, "pos: " + std::to_string(player.pos.x) + ", " + std::to_string(player.pos.y), {0, 30});
 		text.DrawText(renderer, "vel: " + std::to_string(player.vel.x) + ", " + std::to_string(player.vel.y), {0, 60});
@@ -138,20 +139,33 @@ public:
 
 	void MainLoop()
 	{
+		Uint64 current_time = SDL_GetPerformanceCounter();
+		Uint64 previous_time = 0;
+		float deltaTime = 0;
+
 		while (!quit)
 		{
-			HandleInput();
-			// TODO: use real delta time
-			Update(0.16f);
+			// Calculate delta time
+			// See: https://gamedev.stackexchange.com/questions/110825/how-to-calculate-delta-time-with-sdl
+			previous_time = current_time;
+			current_time = SDL_GetPerformanceCounter();
+			deltaTime = (float) ((current_time - previous_time)*1000 / (double) SDL_GetPerformanceFrequency());
 
-			// Lightning McQueen
+			HandleInput();
+			Update(deltaTime);
+
+			// Dampen velocity, used to give a sense of inertia to the player
 			player.vel.x *= player.velocity_dampener;
 			player.vel.y *= player.velocity_dampener;
 		}
 	}
 
+	// Clean up after ourselves, and reset all pointers
 	void Destroy()
 	{
+		prefab.Destroy();
+		text.Destroy();
+		texture.Destroy();
 		SDL_DestroyRenderer(renderer);
 		renderer = nullptr;
 		SDL_DestroyWindow(window);
@@ -161,50 +175,6 @@ public:
 };
 
 template <>
-inline void load_from_json(Engine& value, const json::JSON& node)
-{
-	if (node.hasKey("title"))
-	{
-		load_from_json(value.window_title, node.at("title"));
-	}
-
-	if (node.hasKey("window")) {
-		const json::JSON& window = node.at("window");
-		if (window.hasKey("width")) {
-			load_from_json(value.window_size.x, node.at("window").at("width"));
-		}
-		if (window.hasKey("height")) {
-			load_from_json(value.window_size.y, node.at("window").at("height"));
-		}
-		if (window.hasKey("clear_color")) {
-			load_from_json(value.window_clear_color, node.at("window").at("clear_color"));
-		}
-	}
-
-	if (node.hasKey("config")) {
-		const json::JSON& config = node.at("config");
-
-		if (config.hasKey("font"))
-		{
-			const json::JSON font_file = give_me_json(config.at("font").ToString().c_str());
-			load_from_json(value.text, font_file);
-		}
-
-		if (config.hasKey("texture"))
-		{
-			const json::JSON texture_file = give_me_json(config.at("texture").ToString().c_str());
-			load_from_json(value.texture, texture_file);
-		}
-
-		// Load Prefabs, NEEDS to be loaded after textures
-		if (config.hasKey("prefab"))
-		{
-			const json::JSON prefab_file = give_me_json(config.at("prefab").ToString().c_str());
-			value.prefab.SetTextureManager(&value.texture);
-			load_from_json(value.prefab, prefab_file);
-		}
-
-	}
-}
+void load_from_json(Engine& value, const json::JSON& node);
 
 #endif
