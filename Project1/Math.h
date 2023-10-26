@@ -43,6 +43,9 @@ inline float magnitude_squared(const T& point) {
 }
 
 inline bool check_collision(SDL_FPoint obj1, SDL_FPoint obj2, float r1, float r2) {
+	obj1 = obj1 + SDL_FPoint{r1, r1};
+	obj2 = obj2 + SDL_FPoint{r2, r2};
+
 	return magnitude_squared(obj2 - obj1) <= ((r1 + r2) * (r1 + r2));
 }
 

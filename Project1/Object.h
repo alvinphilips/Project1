@@ -77,6 +77,22 @@ inline void load_from_json(Object& value, const json::JSON& node)
 	if (node.hasKey("color")) {
 		load_from_json(value.color, node.at("color"));
 	}
+	if (node.hasKey("sprite_id")) {
+		load_from_json(value.sprite, node.at("sprite_id"));
+	}
+}
+
+template <>
+inline json::JSON save_to_json(const Object& value) {
+	json::JSON node;
+	node["pos"] = save_to_json(value.pos);
+	node["vel"] = save_to_json(value.vel);
+	node["radius"] = value.radius;
+	node["health"] = value.health;
+	node["sprite_id"] = value.sprite;
+	node["color"] = save_to_json(value.color);
+
+	return node;
 }
 
 #endif

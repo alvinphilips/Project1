@@ -42,7 +42,7 @@ public:
 	}
 	void Initialize() override
 	{
-		vel.x = random(-speed, speed);
+		vel.x = random(-speed, speed) * 0.5f;
 		vel.y = random(speed);
 		last_fired = 0;
 		shot_ready = can_fire;
@@ -77,6 +77,20 @@ inline void load_from_json(Enemy& value, const json::JSON& node)
 		load_from_json(value.scale, node.at("scale"));
 	}
 	value.max_health = value.health;
+}
+
+template <>
+inline json::JSON save_to_json(const Enemy& value)
+{
+	json::JSON node = save_to_json((Object&)value);
+	node["fire_delay"] = value.fire_delay;
+	node["points"] = value.points;
+	node["speed"] = value.speed;
+	node["can_fire"] = value.can_fire;
+	node["scale"] = value.scale;
+	node["health"] = value.max_health;
+
+	return node;
 }
 
 #endif

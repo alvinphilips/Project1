@@ -16,6 +16,16 @@ public:
 	unsigned int lives;
 	bool can_fire;
 	void Initialize() override {}
+	void Update(const float deltaTime) override {
+		Object::Update(deltaTime);
+		last_fired += deltaTime;
+
+		if (last_fired >= fire_delay)
+		{
+			can_fire = true;
+			last_fired = 0;
+		}
+	}
 	void Destroy() override {}
 };
 
@@ -42,7 +52,21 @@ inline void load_from_json(Player& value, const json::JSON& node)
 	if (node.hasKey("lives")) {
 		load_from_json(value.lives, node.at("lives"));
 	}
-
 }
+
+template <>
+inline json::JSON save_to_json(const Player& value)
+{
+	json::JSON node = save_to_json((Object&)value);
+	node["fire_delay"] = value.fire_delay;
+	node["movement_factor"] = value.movement_factor;
+	node["speed"] = value.speed;
+	node["can_fire"] = value.can_fire;
+	node["velocity_dampener"] = value.velocity_dampener;
+	node["lives"] = value.lives;
+
+	return node;
+}
+
 
 #endif

@@ -162,6 +162,7 @@
     <None Include="textures.json" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="json.cpp" />
     <ClCompile Include="main.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PrefabManager.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="ProjectileManager.h" />
     <ClInclude Include="Serialize.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TextManager.h" />

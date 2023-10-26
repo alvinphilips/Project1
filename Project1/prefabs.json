@@ -1,29 +1,38 @@
 {
   "player": {
-    "fire_delay": 0.3,
+    "fire_delay": 1000.0,
     "movement_factor": 0.3,
     "speed": 2.0,
     "lives": 3,
     "velocity_dampener": 0.995,
     "sprite": "ship_D",
+    "color": [12, 235, 23, 255],
     "projectile": {
       "damage": 50,
-      "vel": [ 0.0, -1.5 ],
-      "color": [ 15, 127, 24, 255 ],
+      "vel": {
+        "x": 0.0,
+        "y": -0.1
+      },
+      "scale": 0.3,
+      "color": [ 15, 255, 24, 255 ],
       "sprite": "star_small"
     }
   },
   "enemy_projectile": {
     "damage": 30,
-    "vel": [ 0.0, 1.2 ],
-    "color": [ 237, 24, 221, 255 ],
+    "vel": {
+      "x": 0.0,
+      "y": 0.1
+    },
+    "color": [ 255, 0, 0, 255 ],
+    "scale": 0.3,
     "sprite": "star_tiny"
   },
   "enemies": [
     {
       "sprite": "ship_sidesA",
       "speed": 0.05,
-      "fire_delay": 2.0,
+      "fire_delay": 4000.0,
       "health": 200.0,
       "name": "enemy_heavy",
       "color": [ 245, 14, 78, 255 ],
@@ -34,7 +43,7 @@
     {
       "sprite": "satellite_B",
       "speed": 0.1,
-      "fire_delay": 1.0,
+      "fire_delay": 3000.0,
       "health": 200.0,
       "color": [ 255, 0, 68, 255 ],
       "name": "enemy_light",
@@ -64,19 +73,21 @@
   "decorations": [
     {
       "sprite": "star_medium",
-      "speed": 0.02,
+      "speed": 0.01,
       "health": 100.0,
       "name": "star_medium",
       "color": [ 159, 175, 200, 255 ],
-      "scale": 0.35
+      "scale": 0.35,
+      "can_fire": false
     },
     {
       "sprite": "star_small",
-      "speed": 0.04,
+      "speed": 0.03,
       "health": 100.0,
       "name": "star_small",
       "color": [ 139, 155, 180, 255 ],
-      "scale": 0.5
+      "scale": 0.5,
+      "can_fire": false
     }
   ]
 }

@@ -52,14 +52,20 @@ inline void load_from_json(PrefabManager& value, const json::JSON& node) {
 		// Add Player's projectile
 		if (node.at("player").hasKey("projectile")) {
 			load_from_json(value.player_projectile, node.at("player").at("projectile"));
+			// Set the projectile's sprite
+			if (value.texture != nullptr) {
+				value.player_projectile.SetSprite(*value.texture, node.at("player").at("projectile").at("sprite").ToString());
+			}
 		}
 	}
 
 	// Add enemy's projectile
 	if (node.hasKey("enemy_projectile")) {
-		Projectile p;
-		load_from_json(p, node.at("enemy_projectile"));
-		value.enemy_projectile = p;
+		load_from_json(value.enemy_projectile, node.at("enemy_projectile"));
+
+		if (value.texture != nullptr) {
+			value.enemy_projectile.SetSprite(*value.texture,  node.at("enemy_projectile").at("sprite").ToString());
+		}
 	}
 
 	// Load enemies
